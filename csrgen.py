@@ -1,33 +1,35 @@
+"""Module for logging"""
 import logging
-logging.basicConfig(level=logging.INFO)
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import ec
-
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import hashes
 
+logging.basicConfig(level=logging.INFO)
+
 logger = logging.getLogger(__name__)
 
 def generate_rsa_key(keysize):
+    """Function for generating RSA keys"""
 
     valid_key_size = [512,1024,2048,4096,8192,16384]
-    if keysize in valid_key_size: 
+    if keysize in valid_key_size:
 
         # Generate our key
-        key = rsa.generate_private_key(
+        rsakey = rsa.generate_private_key(
 
             public_exponent=65537,
             key_size=keysize,
         )
-        return key
+        return rsakey
     else:
-        logger.warning("keysize not valid: " + str(keysize))
-        
+        logger.warning("keysize not valid: %e", str(keysize))
 
 def generate_ecc_key(ecc_curve):
+    """Function for generating ECC keys"""
 
     valid_curve = ["secp256r1","secp384r1","secp521r1","secp224r1","secp192r1","secp256k1"]
     if ecc_curve in valid_curve:
@@ -46,13 +48,14 @@ def generate_ecc_key(ecc_curve):
         elif ecc_curve == "secp256k1":
             curve = ec.SECP256K1()    
 
-        key = ec.generate_private_key(curve)
-        return key
+        ecckey = ec.generate_private_key(curve)
+        return ecckey
     else:
-        logger.warning("ECC curve not valid: " + ecc_curve)
+        logger.warning("ECC curve not valid: %e", ecc_curve)
 
 
-def generate_csr(key, country, state, locality, organization, common_name,san_list):
+def generate_tls_csr(key, country, state, locality, organization, common_name,san_list):
+    """Function generating CSRs"""
 
     dns_names = [x509.DNSName(san) for san in san_list]
 
@@ -75,12 +78,26 @@ def generate_csr(key, country, state, locality, organization, common_name,san_li
 
     ).sign(key, hashes.SHA256())
 
-    # csr_pem = csr.public_bytes(serialization.Encoding.PEM)
-    # csr_formatted = csr_pem.decode("utf-8") 
+    csr_pem = csr.public_bytes(serialization.Encoding.PEM)
+    csr_formatted = csr_pem.decode("utf-8")
 
-    with open(r"C:\Users\Christian\Documents\Git\csr_generator\csr.pem", "wb") as f:
+    return csr_formatted
 
-        f.write(csr.public_bytes(serialization.Encoding.PEM))
+    # with open(r"C:\Users\Christian\Documents\Git\csr_generator\csr.pem", "wb") as file:
 
-key = generate_rsa_key(2048)
-generate_csr(key, "DK", "Copenhagen", "Copenhagen", "blueclorp", "bluewins.net",["test.bluewins.net","test2.bluewins.net"])
+    #     file.write(csr.public_bytes(serialization.Encoding.PEM))
+
+def select_csr(common_name,organization,locality,state,country, key_algorithm, key_size):
+    """Function for generating RSA keys"""
+
+    if key_algorithm == "RSA":
+        key = generate_rsa_key(key_size)
+    if key_algorithm == "ECC":
+        key = generate_ecc_key(key_size)
+
+    csr = generate_tls_csr(key, country, state, locality, organization, common_name,san_list)
+
+    return csr
+
+#key = generate_rsa_key(2048)
+#generate_csr(key, "DK", "Copenhagen", "Copenhagen", "blueclorp", "bluewins.net",["test.bluewins.net","test2.bluewins.net"])

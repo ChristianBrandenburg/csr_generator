@@ -2,3 +2,20 @@ body {
     background-color:#fff;
     text-align: center;
   }
+
+.outer-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 25%; /* Adjust this value to fit your design */
+}
+
+.form-container,
+.sans-container {
+    width: calc(50% - 25px); /* Adjust width to account for the 50px gap */
+}

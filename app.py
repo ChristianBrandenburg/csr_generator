@@ -1,16 +1,27 @@
-
+"""Module for interacting with OS"""
 import os
-
-from flask import Flask, request, Response, render_template
+from flask import Flask, request, render_template
+from csrgen import select_csr
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+    """Initial route for homepage"""
     return render_template('index.html')
 
 @app.route('/generatecsr')
-def index():
+def generatecsr():
+    """Route when clicking Submit"""
+    common_name = request.form.get('CN')
+    organization = request.form.get('O')
+    locality = request.form.get('L')
+    state = request.form.get('ST')
+    country = request.form.get('C')
+    key_algorithm = request.form.get('keyAlgorithm')
+    key_size = request.form.get('keySize')
+
+    select_csr(common_name,organization,locality,state,country, key_algorithm, key_size)  
     return render_template('index.html')
 
 if __name__ == '__main__':
