@@ -10,6 +10,7 @@ def index():
     """Initial route for homepage"""
     return render_template('index.html')
 
+
 @app.route('/generatecsr')
 def generatecsr():
     """Route when clicking Submit"""
@@ -20,9 +21,11 @@ def generatecsr():
     country = request.form.get('C')
     key_algorithm = request.form.get('keyAlgorithm')
     key_size = request.form.get('keySize')
-
-    select_csr(common_name,organization,locality,state,country, key_algorithm, key_size)  
-    return render_template('index.html')
+    sans = request.form.get('Sans')
+    try:
+        select_csr(common_name,organization,locality,state,country, key_algorithm, key_size,sans)
+    finally:
+        return render_template('result.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('FLASK_PORT', 5555))

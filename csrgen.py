@@ -87,7 +87,7 @@ def generate_tls_csr(key, country, state, locality, organization, common_name,sa
 
     #     file.write(csr.public_bytes(serialization.Encoding.PEM))
 
-def select_csr(common_name,organization,locality,state,country, key_algorithm, key_size):
+def select_csr(common_name,organization,locality,state,country, key_algorithm, key_size, san_list):
     """Function for generating RSA keys"""
 
     if key_algorithm == "RSA":
