@@ -90,14 +90,23 @@ def generate_tls_csr(key, country, state, locality, organization, common_name,sa
 def select_csr(common_name,organization,locality,state,country, key_algorithm, key_size, san_list):
     """Function for generating RSA keys"""
 
+    key_algorithm = "RSA"
     if key_algorithm == "RSA":
         key = generate_rsa_key(key_size)
-    if key_algorithm == "ECC":
+    elif key_algorithm == "ECC":
         key = generate_ecc_key(key_size)
+    else:
+        key = "No key generated"
+        print("No key generated")
+
+    key_pem = key.private_bytes(encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
+            encryption_algorithm=serialization.NoEncryption())
+    key_formatted = key_pem.decode("utf-8")
 
     csr = generate_tls_csr(key, country, state, locality, organization, common_name,san_list)
 
-    return csr
+    return csr, key_formatted
 
 #key = generate_rsa_key(2048)
 #generate_csr(key, "DK", "Copenhagen", "Copenhagen", "blueclorp", "bluewins.net",["test.bluewins.net","test2.bluewins.net"])

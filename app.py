@@ -11,7 +11,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/generatecsr')
+@app.route('/generatecsr', methods=['POST'])
 def generatecsr():
     """Route when clicking Submit"""
     common_name = request.form.get('CN')
@@ -19,13 +19,25 @@ def generatecsr():
     locality = request.form.get('L')
     state = request.form.get('ST')
     country = request.form.get('C')
-    key_algorithm = request.form.get('keyAlgorithm')
-    key_size = request.form.get('keySize')
+    key_algorithm = str(request.form.get('keyAlgorithm'))
+    key_size = int(request.form.get('keySize'))
     sans = request.form.get('Sans')
-    try:
-        select_csr(common_name,organization,locality,state,country, key_algorithm, key_size,sans)
-    finally:
-        return render_template('result.html')
+
+    print(common_name)
+    print(organization)
+    print(locality)
+    print(state)
+    print(country)
+    print(key_algorithm)
+    print(key_size)
+    print(sans)
+
+    result = select_csr(common_name,organization,locality,state,country, key_algorithm, key_size,sans)
+    csr = result[0]
+    key = result[1]
+    print(csr)
+    return render_template('result.html', csr=csr,key=key)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('FLASK_PORT', 5555))
