@@ -1,4 +1,3 @@
-"""Module for logging"""
 import logging
 
 from cryptography.hazmat.primitives import serialization
@@ -31,23 +30,20 @@ def generate_rsa_key(keysize):
 def generate_ecc_key(ecc_curve):
     """Function for generating ECC keys"""
 
-    valid_curve = ["secp256r1","secp384r1","secp521r1","secp224r1","secp192r1","secp256k1"]
+    valid_curve = [256,384,521,224,192]
     if ecc_curve in valid_curve:
 
         # Generate our key
-        if ecc_curve == "secp256r1":
+        if ecc_curve == 256:
             curve = ec.SECP256R1()
-        elif ecc_curve == "secp384r1":
+        elif ecc_curve == 384:
             curve = ec.SECP384R1()
-        elif ecc_curve == "secp521r1":
+        elif ecc_curve == 521:
             curve = ec.SECP521R1()
-        elif ecc_curve == "secp224r1":
+        elif ecc_curve == 224:
             curve = ec.SECP224R1()
-        elif ecc_curve == "secp192r1":
-            curve = ec.SECP192R1()                            
-        elif ecc_curve == "secp256k1":
-            curve = ec.SECP256K1()    
-
+        elif ecc_curve == 192:
+            curve = ec.SECP192R1()
         ecckey = ec.generate_private_key(curve)
         return ecckey
     else:
@@ -75,7 +71,6 @@ def generate_tls_csr(key, country, state, locality, organization, common_name,sa
         critical=False,
 
     # Sign the CSR with our private key.
-
     ).sign(key, hashes.SHA256())
 
     csr_pem = csr.public_bytes(serialization.Encoding.PEM)
@@ -83,14 +78,9 @@ def generate_tls_csr(key, country, state, locality, organization, common_name,sa
 
     return csr_formatted
 
-    # with open(r"C:\Users\Christian\Documents\Git\csr_generator\csr.pem", "wb") as file:
-
-    #     file.write(csr.public_bytes(serialization.Encoding.PEM))
-
 def select_csr(common_name,organization,locality,state,country, key_algorithm, key_size, san_list):
     """Function for generating RSA keys"""
 
-    key_algorithm = "RSA"
     if key_algorithm == "RSA":
         key = generate_rsa_key(key_size)
     elif key_algorithm == "ECC":
@@ -107,6 +97,3 @@ def select_csr(common_name,organization,locality,state,country, key_algorithm, k
     csr = generate_tls_csr(key, country, state, locality, organization, common_name,san_list)
 
     return csr, key_formatted
-
-#key = generate_rsa_key(2048)
-#generate_csr(key, "DK", "Copenhagen", "Copenhagen", "blueclorp", "bluewins.net",["test.bluewins.net","test2.bluewins.net"])

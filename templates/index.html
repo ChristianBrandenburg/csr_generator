@@ -3,39 +3,52 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../static/css/main.css">
+    <!-- <link rel="stylesheet" href="../static/css/main.css"> -->
     <script src="../static/js/main.js"></script> <!-- Add this line -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>CSR Generator</title>
+
+    <style>
+        /* Set the font size for the entire HTML document */
+        html {
+          font-size: smaller; /* Replace this value with your desired font size */
+        }
+
+        label {
+            font-size: smaller;
+        }
+        input {
+            font-size: smaller;
+        }
+    </style>
+
 </head>
 <body>
 
-    <h1>CSR Generator</h1>
-    <h2>Only for testing</h2>
+    <h3>CSR Generator</h1>
 
     <div class="container">
-        <div class="form-container">
             <form action="/generatecsr" method="post">
-                <label for="commonname">Common Name</label><br>
-                <input type="text" id="commonname" name="CN"><br><br>
-                <label for="sans">SANs</label><br>
-                <textarea id="sans" name="Sans" rows="5" cols="30"></textarea><br><br>
-                <label for="organization">Organization</label><br>
-                <input type="text" id="organization" name="O"><br><br>
-                <label for="locality">Locality</label><br>
-                <input type="text" id="locality" name="L"><br><br>
-                <label for="state">State</label><br>
-                <input type="text" id="state" name="ST"><br><br>
-                <label for="country">Country</label><br>
-                <input type="text" id="country" name="C"><br><br>
-                <input type="radio" name="keyAlgorithm" value="RSA" checked onclick="setRSAKeySizes()" /> RSA
-                <input type="radio" name="keyAlgorithm" value="ECC" onclick="setECCKeySizes()" />ECC<br><br>
+                <label for="commonname">Common Name</label>
+                <input type="text" id="commonname" name="CN">
+                <label for="sans">SANs</label>
+                <textarea id="sans" name="Sans" rows="3" cols="21"></textarea>
+                <label for="organization">Organization</label>
+                <input type="text" id="organization" name="O">
+                <label for="locality">Locality</label>
+                <input type="text" id="locality" name="L">
+                <label for="state">State</label>
+                <input type="text" id="state" name="ST">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="C">
 
+                <input type="radio" name="keyAlgorithm" id="RSA" value="RSA" checked onclick="setRSAKeySizes()" /> RSA
+                <input type="radio" name="keyAlgorithm" id="ECC" value="ECC" onclick="setECCKeySizes()" />ECC<br><br>
                 <label for="keySize">Choose a keysize:</label>
                 <select name="keySize" id="keySize">
                 </select><br><br>
                 <input type="submit" value="Submit">
             </form>
-        </div>
     </div>
 </body>
 </html>

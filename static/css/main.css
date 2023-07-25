@@ -1,9 +1,9 @@
-body {
+
+/* body {
     background-color:#fff;
     text-align: center;
   }
 
-.container {
-    display: flex;
-    flex-direction: column;
-}
+  textarea-container textarea{
+    text-align: center; /* Horizontally center the text */
+  } */

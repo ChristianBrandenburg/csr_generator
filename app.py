@@ -1,4 +1,3 @@
-"""Module for interacting with OS"""
 import os
 from flask import Flask, request, render_template
 from csrgen import select_csr
@@ -32,7 +31,7 @@ def generatecsr():
     print(key_size)
     print(sans)
 
-    result = select_csr(common_name,organization,locality,state,country, key_algorithm, key_size,sans)
+    result = select_csr(common_name, organization, locality, state, country, key_algorithm, key_size,sans)
     csr = result[0]
     key = result[1]
     print(csr)
@@ -42,3 +41,4 @@ def generatecsr():
 if __name__ == '__main__':
     port = int(os.environ.get('FLASK_PORT', 5555))
     app.run(host='0.0.0.0', port=port)
+    
