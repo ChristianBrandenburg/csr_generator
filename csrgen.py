@@ -53,8 +53,13 @@ def generate_ecc_key(ecc_curve):
 def generate_tls_csr(key, country, state, locality, organization, common_name,san_list):
     """Function generating CSRs"""
 
+    logger.info("Generating CSR for %s", common_name)
+    logger.info("SANs: %s", san_list)
+
     dns_names = [x509.DNSName(san) for san in san_list]
 
+    logger.info("DNS Names: %s", dns_names)
+    
     # Generate a CSR
     csr = x509.CertificateSigningRequestBuilder().subject_name(x509.Name([
 
@@ -87,7 +92,7 @@ def select_csr(common_name,organization,locality,state,country, key_algorithm, k
         key = generate_ecc_key(key_size)
     else:
         key = "No key generated"
-        print("No key generated")
+        logger.warning("No key generated")
 
     key_pem = key.private_bytes(encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.TraditionalOpenSSL,
