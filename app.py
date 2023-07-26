@@ -53,9 +53,7 @@ def generatecsr():
     key = result[1]
     print(csr)
     return render_template('result.html', csr=csr,key=key)
-
-
+    
 if __name__ == '__main__':
-    port = int(os.environ.get('FLASK_PORT', 5555))
-    app.run(host='0.0.0.0', port=port)
+   app.run(host='0.0.0.0',debug = True,port=5000)
     
