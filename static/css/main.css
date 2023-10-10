@@ -1,9 +1,17 @@
+/* Set the font size for the entire HTML document */
+html {
+  font-size: smaller; /* Replace this value with your desired font size */
+}
 
-/* body {
-    background-color:#fff;
-    text-align: center;
-  }
-
-  textarea-container textarea{
-    text-align: center; /* Horizontally center the text */
-  } */
+label {
+    font-size: smaller;
+}
+input {
+    font-size: smaller;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* This centers content vertically */
+    align-items: center;     /* This centers content horizontally */
+}

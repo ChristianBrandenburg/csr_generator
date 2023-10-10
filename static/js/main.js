@@ -12,5 +12,14 @@ function setECCKeySizes() {
     select.value = '256';
 }
 
+// Validate that the country field is a valid two-letter country code
+document.getElementById('country').addEventListener('input', function(e) {
+    const value = e.target.value;
+    if (value.length !== 2 || !/^[A-Za-z]{2}$/.test(value)) {
+        alert('Please enter a valid two-letter country code.');
+        e.target.focus();
+    }
+});
+
 // Initially set the key sizes for RSA as the page loads.
-window.onload = setRSAKeySizes;
+window.addEventListener('load', setRSAKeySizes);

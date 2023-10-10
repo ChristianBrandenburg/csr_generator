@@ -3,33 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <!-- <link rel="stylesheet" href="../static/css/main.css"> -->
+    
     <script src="../static/js/main.js"></script> <!-- Add this line -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="../static/css/main.css">
     <title>CSR Generator</title>
-
-    <style>
-        /* Set the font size for the entire HTML document */
-        html {
-          font-size: smaller; /* Replace this value with your desired font size */
-        }
-
-        label {
-            font-size: smaller;
-        }
-        input {
-            font-size: smaller;
-        }
-    </style>
-
-
 </head>
 <body>
 
-    <h1>CSR Generator</h1>
-    <h2>Only for testing</h2>
-
     <div class="container">
+        <h1>CSR Generator</h1>
+        <h2>Only for testing</h2>
         <label for="PrivateKey">Private Key</label>
         <textarea id="PrivateKey" name="PrivateKey" rows="25" cols="65" readonly>{{ key }}</textarea><br><br>
         <label for="CSR">CSR</label>
