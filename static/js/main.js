@@ -7,10 +7,13 @@ function setRSAKeySizes() {
 
 function setECCKeySizes() {
     var select = document.getElementById("keySize");
-    select.innerHTML = "<option value='192'>192</option><option value='224'>244</option><option value='256'>256</option><option value='384'>384</option><option value='521'>521</option>";
+    select.innerHTML = "<option value='192'>192</option><option value='224'>224</option><option value='256'>256</option><option value='384'>384</option><option value='521'>521</option>";
     // Set the initial value to 2048 (select the option with value 2048)
     select.value = '256';
 }
+
+// Initially set the key sizes for RSA as the page loads.
+window.onload = setRSAKeySizes;
 
 // Validate that the country field is a valid two-letter country code
 document.getElementById('country').addEventListener('input', function(e) {
@@ -21,5 +24,3 @@ document.getElementById('country').addEventListener('input', function(e) {
     }
 });
 
-// Initially set the key sizes for RSA as the page loads.
-window.addEventListener('load', setRSAKeySizes);

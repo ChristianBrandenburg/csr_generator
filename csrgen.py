@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography import x509
 from cryptography.x509.oid import NameOID
+from cryptography.x509.oid import ObjectIdentifier
 from cryptography.hazmat.primitives import hashes
 
 logging.basicConfig(level=logging.INFO)
@@ -72,9 +73,12 @@ def generate_tls_csr(key, country, state, locality, organization, common_name,sa
 
     ])).add_extension(
         x509.SubjectAlternativeName(dns_names),
-
         critical=False,
-
+    ).add_extension(
+        x509.ExtendedKeyUsage(
+        [ObjectIdentifier("1.3.6.1.5.5.7.3.1"), # Server Auth OID
+        ObjectIdentifier("1.3.6.1.5.5.7.3.2")]), # Client Auth OID
+        critical=False,
     # Sign the CSR with our private key.
     ).sign(key, hashes.SHA256())
 
