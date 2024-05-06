@@ -13,18 +13,78 @@
         <h1>CSR Generator</h1>
         <h3>This CSR generator is only for testing and should not be used in any production systems.</h3>
             <form action="/generatecsr" method="post">
-                <label for="commonname">Common Name</label>
-                <input type="text" id="commonname" name="CN">
-                <label for="sans">SANs</label>
-                <textarea id="sans" name="Sans" rows="3" cols="21"></textarea>
-                <label for="organization">Organization</label>
-                <input type="text" id="organization" name="O">
-                <label for="locality">Locality</label>
-                <input type="text" id="locality" name="L">
-                <label for="state">State</label>
-                <input type="text" id="state" name="ST">
-                <label for="country">Country</label>
-                <input type="text" id="country" name="C" pattern="^[A-Za-z]{2}$" required title="Please enter a two-letter country code.">
+            <div class="grid">
+                <div>
+                <label for="commonname" class="col-sm-12">Common Name</label>
+                <input type="text" id="commonname" name="CN" class="col-sm-12">
+                <label for="sans" class="col-sm-12">SANs</label>
+                <textarea id="sans" name="Sans" rows="3" cols="21" class="col-sm-12"></textarea>
+                <label for="organization" class="col-sm-12">Organization</label>
+                <input type="text" id="organization" name="O" class="col-sm-12">
+                <label for="locality" class="col-sm-12">Locality</label>
+                <input type="text" id="locality" name="L" class="col-sm-12">
+                <label for="state" class="col-sm-12">State</label>
+                <input type="text" id="state" name="ST" class="col-sm-12">
+                <label for="country" class="col-sm-12">Country</label>
+                <input type="text" id="country" name="C" pattern="^[A-Za-z]{2}$" required title="Please enter a two-letter country code." class="col-sm-12">
+                </div>
+                <div>
+                    <h5>Please select a certificate profile below or manually set key usage extensions</h5>
+                    <input type="radio" name="certProfile" id="SSL" value="SSL" onclick="setProfile('SSL')" />TLS/SSL<br>
+                    <input type="radio" name="certProfile" id="SMIME" value="SMIME" onclick="setProfile('SMIME')" />S/MIME<br>
+                    <input type="radio" name="certProfile" id="CODESIGN" value="CODESIGN" onclick="setProfile('CODESIGN')" />Code Signing<br>
+                    <input type="radio" name="certProfile" id="DOCUSIGN" value="DOCUSIGN" onclick="setProfile('DOCUSIGN')" />Document Signing<br>
+                    <input type="radio" name="certProfile" id="CUSTOM" value="CUSTOM" onclick="setProfile('CUSTOM')" />Custom<br>
+                    <br>
+                    <h5>Key Usage extensions</h5>
+                    <!-- Checkboxes -->
+                    <fieldset>
+                        <label for="KU">
+                        <div class="grid">
+                            <div>
+                                <input type="checkbox" class="keyGroup" id="digitalsignature" name="digitalsignature">Digital signature<br>
+                                <input type="checkbox" class="keyGroup" id="nonrepudation" name="nonrepudation">Non-repudiation<br>
+                                <input type="checkbox" class="keyGroup" id="keyencipher" name="keyencipher">Key encipherment<br>
+                                <input type="checkbox" class="keyGroup" id="dataencipher" name="dataencipher">Data encipherment
+                            </div>
+                            <div>
+                                <input type="checkbox" class="keyGroup" id="keyagree" name="keyagree" class="checkbox-spacing">Key agreement<br>
+                                <input type="checkbox" class="keyGroup" id="certsign" name="certsign"class="checkbox-spacing">Certificate signing<br>
+                                <input type="checkbox" class="keyGroup" id="crlsign" name="crlsign"class="checkbox-spacing">CRL signing
+                            </div>
+                            <div>
+                                <input type="checkbox" class="keyGroup" id="encipher" name="encipher"class="checkbox-spacing">Encipher only<br>
+                                <input type="checkbox" class="keyGroup" id="decipher" name="decipher"class="checkbox-spacing">Decipher only
+                            </div>
+                        </div>                      
+                        </label>
+                    </fieldset>
+                    <h5>Extended Key Usage extensions</h5>
+                    <fieldset>
+                        <label for="EKU">
+                            <div class="grid">
+                                <div>
+                                    <input type="checkbox" class="keyGroup" id="serverauth" name="serverauth">TLS Server Auth<br>
+                                    <input type="checkbox" class="keyGroup" id="clientauth" name="clientauth">TLS Client Auth
+                                    
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="keyGroup" id="emailprotect" name="emailprotect" class="checkbox-spacing">Email Protection<br>
+                                    <input type="checkbox" class="keyGroup" id="sign" name="sign" class="checkbox-spacing">Signing<br>
+                                    <input type="checkbox" class="keyGroup" id="timestamp" name="timestamp" class="checkbox-spacing">Timestamping
+                                    
+                                    
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="keyGroup" id="IPSECend" name="IPSECend"class="checkbox-spacing">IPSEC End System<br>     
+                                    <input type="checkbox" class="keyGroup" id="IPSECtunnel" name="IPSECtunnel"class="checkbox-spacing">IPSEC Tunnel<br>
+                                    <input type="checkbox" class="keyGroup" id="IPSECuser" name="IPSECuser"class="checkbox-spacing">IPSEC User
+                                </div>
+                            </div>      
+                        </label>
+                    </fieldset>
+                </div>
+            </div>
                 <input type="radio" name="keyAlgorithm" id="RSA" value="RSA" checked onclick="setRSAKeySizes()" /> RSA
                 <input type="radio" name="keyAlgorithm" id="ECC" value="ECC" onclick="setECCKeySizes()" />ECC<br><br>
                 <label for="keySize">Choose a keysize:</label>

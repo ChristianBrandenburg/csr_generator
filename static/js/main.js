@@ -12,6 +12,36 @@ function setECCKeySizes() {
     select.value = '256';
 }
 
+function setProfile(profile) {
+    const groupCheckboxes = document.querySelectorAll('input.keyGroup[type="checkbox"]');
+    groupCheckboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    })
+    if (profile === "SSL") {
+        document.getElementById('digitalsignature').checked = true;
+        document.getElementById('keyencipher').checked = true;
+        document.getElementById('serverauth').checked = true;
+        document.getElementById('clientauth').checked = true;
+    }
+    if (profile === "SMIME") {
+        document.getElementById('digitalsignature').checked = true;
+        document.getElementById('keyencipher').checked = true;
+        document.getElementById('keyagree').checked = true;
+        document.getElementById('nonrepudation').checked = true;
+        document.getElementById('emailprotect').checked = true;
+    }
+    if (profile === "CODESIGN") {
+        document.getElementById('digitalsignature').checked = true;
+        document.getElementById('sign').checked = true;
+        document.getElementById('timestamp').checked = true;
+    }
+    if (profile === "DOCUSIGN") {
+        document.getElementById('digitalsignature').checked = true;
+        document.getElementById('nonrepudation').checked = true;
+        document.getElementById('sign').checked = true;
+    }
+}
+
 // Initially set the key sizes for RSA as the page loads.
 window.onload = setRSAKeySizes;
 

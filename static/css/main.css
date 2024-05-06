@@ -15,3 +15,7 @@ body {
     justify-content: center; /* This centers content vertically */
     align-items: center;     /* This centers content horizontally */
 }
+
+.checkbox-spacing {
+    margin-left: 10px; /* Adjust the value as needed */
+}

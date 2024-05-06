@@ -106,3 +106,39 @@ def select_csr(common_name,organization,locality,state,country, key_algorithm, k
     csr = generate_tls_csr(key, country, state, locality, organization, common_name,san_list)
 
     return csr, key_formatted
+
+
+# Key usages
+# Digital signature
+# Non-repudiation
+# Key encipherment
+# Data encipherment
+# Key agreement
+# Certificate signing
+# CRL signing
+# Encipher only
+# Decipher only
+
+# TLS Web server authentication	
+# Digital signature, key encipherment or key agreement
+
+# TLS Web client authentication
+# Digital signature and/or key agreement
+
+# Sign (downloadable) executable code
+# Digital signature
+
+# Email protection
+# Digital signature, non-repudiation, and/or key encipherment or key agreement
+
+# IPSEC End System (host or router)
+# Digital signature and/or key encipherment or key agreement
+
+# IPSEC Tunnel
+# Digital signature and/or key encipherment or key agreement
+
+# IPSEC User
+# Digital signature and/or key encipherment or key agreement
+
+# Timestamping
+# Digital signature, non-repudiation. 
