@@ -28,6 +28,24 @@ def generatecsr():
     key_size = int(request.form.get('keySize'))
     sans = request.form.get('Sans')
 
+    key_usage_dict = {
+    'digitalsignature': 'digitalsignature' in request.form,
+    'nonrepudation': 'nonrepudation' in request.form,
+    'keyencipher': 'keyencipher' in request.form,
+    'dataencipher': 'dataencipher' in request.form,
+    'keyagree': 'keyagree' in request.form,
+    'certsign': 'certsign' in request.form,
+    'crlsign': 'crlsign' in request.form,
+    'encipher': 'encipher' in request.form,
+    'decipher': 'decipher' in request.form,
+
+    'serverauth': 'serverauth' in request.form,
+    'clientauth': 'clientauth' in request.form,
+    'emailprotect': 'emailprotect' in request.form,
+    'sign': 'sign' in request.form,
+    'timestamp': 'timestamp' in request.form,
+    }
+
     # Use a list comprehension to split the string by newline characters and strip whitespace
     san_list = [san.strip() for san in sans.split('\n') if san.strip() != '']
 
@@ -36,7 +54,7 @@ def generatecsr():
 
     invalid_domains = [san for san in san_list if not domain_pattern.match(san)]
     if invalid_domains:
-        # Handle the invalid domain names. For instance, raise an exception, or return an error message
+        # Warn if a domain name is invalid
         logger.warning(f"The following are not valid domain names: {', '.join(invalid_domains)}")
 
     logger.info(common_name)
@@ -48,7 +66,18 @@ def generatecsr():
     logger.info(key_size)
     logger.info(sans)
 
-    result = select_csr(common_name, organization, locality, state, country, key_algorithm, key_size,san_list)
+    print(key_usage_dict)
+
+    result = select_csr(
+        common_name, 
+        organization, 
+        locality, 
+        state, country, 
+        key_algorithm, 
+        key_size, 
+        san_list, 
+        key_usage_dict)
+    
     csr = result[0]
     key = result[1]
     print(csr)
