@@ -44,9 +44,6 @@ def generatecsr():
     'emailprotect': 'emailprotect' in request.form,
     'sign': 'sign' in request.form,
     'timestamp': 'timestamp' in request.form,
-    'IPSECend': 'IPSECend' in request.form,
-    'IPSECtunnel': 'IPSECtunnel' in request.form,
-    'IPSECuser': 'IPSECuser' in request.form
     }
 
     # Use a list comprehension to split the string by newline characters and strip whitespace
@@ -71,7 +68,16 @@ def generatecsr():
 
     print(key_usage_dict)
 
-    result = select_csr(common_name, organization, locality, state, country, key_algorithm, key_size,san_list)
+    result = select_csr(
+        common_name, 
+        organization, 
+        locality, 
+        state, country, 
+        key_algorithm, 
+        key_size, 
+        san_list, 
+        key_usage_dict)
+    
     csr = result[0]
     key = result[1]
     print(csr)
