@@ -1,8 +1,9 @@
-import os
 import logging
 import re
-from flask import Flask, request, render_template, send_from_directory
+from flask import Flask, request, render_template
 from csrgen import select_csr
+from decoder import decode_cert, decode_csr
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -85,15 +86,20 @@ def generatecsr():
     print(csr)
     return render_template('result.html', csr=csr,key=key)
     
-@app.route('/decoder')
-def decoder():
-    """Route to serve template files as static content"""
-    return render_template('decoder.html')
+# @app.route('/decoder')
+# def decoder():
+#     """Route to serve template files as static content"""
+#     return render_template('decoder.html')
 
-@app.route('/decoder')
+@app.route('/decoder',methods=['POST','GET'])
 def decoder():
     """Route to serve template files as static content"""
-    return render_template('decoder.html')
+    data = request.form.get('data')
+    print(data)
+    if data == None:
+        return render_template('decoder.html')
+    decode_cert(data)
+    return render_template('decoder.html', form_data=data)
 
 
 if __name__ == '__main__':
