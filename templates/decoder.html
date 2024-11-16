@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h3>X509 Decoder</h3>
+<form action="/decode/" method="post">
+<div class="grid">
+    <div>
+        <textarea id="text" name="text" rows="30" cols="65">{{form_data}}</textarea>
+    </div>
+    <div class="profile-section">
+        <strong>Common Name:</strong><br>
+        {{certcn}}test
+        <br>
+        <strong>SAN:</strong><br>
+        {{certcn}}test
+        <br>        
+        <strong>Organization:</strong><br>
+        {{certsubj}}test
+        <br>
+        <strong>Locality:</strong><br>
+        {{certsan}}test
+        <br>
+        <strong>State:</strong><br>
+        {{certsan}}test
+        <br>  
+        <strong>Country:</strong><br>
+        {{certsan}}test
+        <br>                
+        <strong>Validity Start:</strong><br>
+        {{certstart}}test
+        <br>
+        <strong>Validity End:</strong><br>
+        {{certend}}test
+        <br>
+        <strong>Key Size:</strong><br>
+        {{certend}}test
+        <br>  
+        <strong>Key Algorithm:</strong><br>
+        {{certend}}test
+        <br>                
+    </div>
+
+</div>
+<hr>
+<strong>Serial Number</strong><br>
+{{certend}}test
+<br>
+<strong>MD5 Fingerprint</strong><br>
+{{certend}}test
+<br><br>
+<input type="submit" form="cert input" value="Submit">
+</form>
+{% endblock %}
+
+<!-- Common name
+Sans
+Organization
+Locality
+State
+country
+
+keySize
+keyAlgorithm
+SigAlgorithm
+Fingerprints
+
+KeyUsage
+ExtendedKeyUSage -->
+
+<!-- ASN.1 decode? -->

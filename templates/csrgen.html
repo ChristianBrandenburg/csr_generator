@@ -1,0 +1,78 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h3>This CSR generator is only for testing and should not be used in any production systems.</h3>
+<form action="/generatecsr" method="post">
+    <div class="grid">
+        <div>
+            <label for="commonname">Common Name</label>
+            <input type="text" id="commonname" name="CN">
+            <label for="sans">SANs</label>
+            <textarea id="sans" name="Sans" rows="3" cols="21"></textarea>
+            <label for="organization">Organization</label>
+            <input type="text" id="organization" name="O">
+            <label for="locality">Locality</label>
+            <input type="text" id="locality" name="L">
+            <label for="state">State</label>
+            <input type="text" id="state" name="ST">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="C" pattern="^[A-Za-z]{2}$" required title="Please enter a two-letter country code.">
+        </div>
+        <div class="profile-section">
+            <h5>Please select a certificate profile below or manually set key usage extensions</h5>
+            <input type="radio" name="certProfile" id="SSL" value="SSL" onclick="setProfile('SSL')" />TLS/SSL<br>
+            <input type="radio" name="certProfile" id="SMIME" value="SMIME" onclick="setProfile('SMIME')" />S/MIME<br>
+            <input type="radio" name="certProfile" id="CODESIGN" value="CODESIGN" onclick="setProfile('CODESIGN')" />Code Signing<br>
+            <input type="radio" name="certProfile" id="DOCUSIGN" value="DOCUSIGN" onclick="setProfile('DOCUSIGN')" />Document Signing<br>
+            <input type="radio" name="certProfile" id="CUSTOM" value="CUSTOM" onclick="setProfile('CUSTOM')" />Custom<br>
+            <br>
+            <h5>Key Usage extensions</h5>
+            <fieldset>
+                <label for="KU">
+                <div class="grid">
+                    <div>
+                        <input type="checkbox" class="keyGroup" id="digitalsignature" name="digitalsignature">Digital signature<br>
+                        <input type="checkbox" class="keyGroup" id="nonrepudation" name="nonrepudation">Non-repudiation<br>
+                        <input type="checkbox" class="keyGroup" id="keyencipher" name="keyencipher">Key encipher<br>
+                        <input type="checkbox" class="keyGroup" id="dataencipher" name="dataencipher">Data encipher
+                    </div>
+                    <div>
+                        <input type="checkbox" class="keyGroup" id="keyagree" name="keyagree">Key agreement<br>
+                        <input type="checkbox" class="keyGroup" id="certsign" name="certsign">Certificate signing<br>
+                        <input type="checkbox" class="keyGroup" id="crlsign" name="crlsign">CRL signing
+                    </div>
+                    <div>
+                        <input type="checkbox" class="keyGroup" id="encipher" name="encipher">Encipher only<br>
+                        <input type="checkbox" class="keyGroup" id="decipher" name="decipher">Decipher only
+                    </div>
+                </div>                      
+                </label>
+            </fieldset>
+            <h5>Extended Key Usage extensions</h5>
+            <fieldset>
+                <label for="EKU">
+                    <div class="grid">
+                        <div>
+                            <input type="checkbox" class="keyGroup" id="serverauth" name="serverauth">TLS Server Auth<br>
+                            <input type="checkbox" class="keyGroup" id="clientauth" name="clientauth">TLS Client Auth
+                        </div>
+                        <div>
+                            <input type="checkbox" class="keyGroup" id="emailprotect" name="emailprotect">Email Protection<br>
+                            <input type="checkbox" class="keyGroup" id="sign" name="sign">Signing<br>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="keyGroup" id="timestamp" name="timestamp">Timestamping     
+                        </div>
+                    </div>      
+                </label>
+            </fieldset>
+        </div>
+    </div>
+    <input type="radio" name="keyAlgorithm" id="RSA" value="RSA" checked onclick="setRSAKeySizes()" /> RSA
+    <input type="radio" name="keyAlgorithm" id="ECC" value="ECC" onclick="setECCKeySizes()" />ECC<br><br>
+    <label for="keySize">Choose a keysize:</label>
+    <select name="keySize" id="keySize"></select><br><br>
+    <input type="submit" value="Submit">
+</form>
+<script src="static/js/csrgen.js" defer></script>
+{% endblock %}

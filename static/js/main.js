@@ -1,3 +1,47 @@
+// document.addEventListener("DOMContentLoaded", function() {
+    
+//     const loadContent = (target, url) => {
+//         fetch(url)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error(`Failed to load content: ${response.statusText}`);
+//                 }
+//                 return response.text();
+//             })
+//             .then(data => {
+//                 document.getElementById(target).innerHTML = data;
+//                 setRSAKeySizes(); // Set initial RSA key sizes on page load
+//             })
+//             .catch(error => console.error('Error loading content:', error));
+//     };
+
+//     const activateTab = (tab) => {
+//         const targetPanel = tab.getAttribute('data-target');
+//         const url = `/${targetPanel}`;
+
+//         document.querySelectorAll('[role=tab]').forEach(t => t.removeAttribute('aria-current'));
+//         tab.setAttribute('aria-current', 'true');
+
+//         document.querySelectorAll('[role=tabpanel]').forEach(tp => tp.setAttribute('hidden', 'true'));
+//         document.getElementById(targetPanel).removeAttribute('hidden');
+
+//         loadContent(targetPanel, url);
+//     };
+
+//     // Initial load for the first tab
+//     const defaultTab = document.querySelector('[role=tab]');
+//     activateTab(defaultTab);
+    
+
+//     // Event listener for tab clicks
+//     document.querySelectorAll('[role=tab]').forEach(tab => {
+//         tab.addEventListener('click', function(e) {
+//             e.preventDefault();
+//             activateTab(this);
+//         });
+//     });
+// });
+
 function setRSAKeySizes() {
     var select = document.getElementById("keySize");
     select.innerHTML = "<option value='512'>512</option><option value='1024'>1024</option><option value='2048'>2048</option><option value='4096'>4096</option><option value='8192'>8192</option>";
@@ -41,9 +85,6 @@ function setProfile(profile) {
         document.getElementById('sign').checked = true;
     }
 }
-
-// Initially set the key sizes for RSA as the page loads.
-window.onload = setRSAKeySizes;
 
 // Validate that the country field is a valid two-letter country code
 document.getElementById('country').addEventListener('input', function(e) {

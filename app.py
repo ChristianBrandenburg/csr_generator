@@ -1,7 +1,7 @@
 import os
 import logging
 import re
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 from csrgen import select_csr
 
 logging.basicConfig(level=logging.INFO)
@@ -13,8 +13,12 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Initial route for homepage"""
-    return render_template('index.html')
+    return render_template('csrgen.html')
 
+@app.route('/csrgen')
+def csrgen():
+    """Route to serve template files as static content"""
+    return render_template('csrgen.html')
 
 @app.route('/generatecsr', methods=['POST'])
 def generatecsr():
@@ -66,8 +70,6 @@ def generatecsr():
     logger.info(key_size)
     logger.info(sans)
 
-    print(key_usage_dict)
-
     result = select_csr(
         common_name, 
         organization, 
@@ -83,6 +85,17 @@ def generatecsr():
     print(csr)
     return render_template('result.html', csr=csr,key=key)
     
+@app.route('/decoder')
+def decoder():
+    """Route to serve template files as static content"""
+    return render_template('decoder.html')
+
+@app.route('/decoder')
+def decoder():
+    """Route to serve template files as static content"""
+    return render_template('decoder.html')
+
+
 if __name__ == '__main__':
    app.run(host='0.0.0.0',debug = True,port=5500)
     
