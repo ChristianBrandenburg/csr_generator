@@ -11,19 +11,19 @@
 <header class="container">
   <h1>Certificate Tools</h1>
   <nav aria-label="breadcrumb">
-      <ul>
-        <li><a href="/csrgen" role="tab">CSR Generator</a></li>
-        <li><a href="/decoder" role="tab">X509 Decoder</a></li>
-        <li><a href="/chain" role="tab">Chain Analyzer</a></li>
-        <li><a href="/psd2" role="tab">PSD2 sample</a></li>
-      </ul>
+    <ul>
+        <li><button onclick="window.location.href='/csrgen'">CSR Generator</button></li>
+        <li><button onclick="window.location.href='/decoder'" aria-current="page">X509 Decoder</button></li>
+        <li><button onclick="window.location.href='/chain'">Chain Analyzer</button></li>
+        <li><button onclick="window.location.href='/psd2'">PSD2 sample</button></li>
+    </ul>
   </nav>
+  <hr>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
 </header>
-<main class="container">
-    <section>
-      {% block content %}{% endblock %}
-    </section>
-</main>
+
 
 <script src="../static/js/main.js" defer></script>
 </body>

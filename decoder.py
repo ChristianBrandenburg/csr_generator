@@ -31,8 +31,7 @@ m/HgFrM97diRQZFlBYdyIwq3zqpCCsEHFOQo3MPhXZvp/xHA25QMfJS5Ud56UpL8
 def decode_cert(data):
     """Function for decoding X.509 certificate"""
 
-    cert_bytes = data.encode('utf-8')
-    cert = x509.load_pem_x509_certificate(cert_bytes)
+    cert = x509.load_pem_x509_certificate(data)
 
     subject = cert.subject
     common_name = ""
@@ -89,8 +88,8 @@ def decode_cert(data):
 
 def decode_csr(data):
     """Function for decoding X.509 CSR"""
-    cert_bytes = data.encode('utf-8')
-    csr = x509.load_pem_x509_csr(cert_bytes)
+
+    csr = x509.load_pem_x509_csr(data)
 
     # Initialize variables for CSR subject fields
     common_name = ""
@@ -134,7 +133,26 @@ def decode_csr(data):
         "state": state,
         "key_algorithm": key_algorithm,
         "key_size": key_size,
+        "SHA256_hash": "",
+        "SHA1_hash": "",
+        "MD5_hash": "",
+        "serial_number": "",
+        "validity_start": "",
+        "validity_end": "",
     }
 
 
-decode_cert(data)
+def decode(data):
+    """Function for decoding X.509 certificate"""
+    "CSR or certificate"
+
+    cert_bytes = data.encode('utf-8')
+
+    if "BEGIN CERTIFICATE REQUEST" in data:
+        result = decode_csr(cert_bytes)
+    elif "BEGIN CERTIFICATE" in data:
+        result = decode_cert(cert_bytes)
+    else:
+        result = None
+        raise ValueError("Input data is neither a valid CSR nor a certificate.")
+    return result

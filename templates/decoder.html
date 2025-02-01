@@ -1,53 +1,28 @@
 {% extends "index.html" %}
-
 {% block content %}
 <h3>X509 Decoder</h3>
 <form action="/decoder" method="post">
-    <div class="grid">
-        <div class="container">
-            <textarea id="data" name="data" rows="30">test</textarea>
-        </div>
-        <div class="profile-section">
-            <strong>Common Name:</strong><br>
-            {{certcn}}test
-            <br>
-            <strong>SAN:</strong><br>
-            {{certcn}}test
-            <br>        
-            <strong>Organization:</strong><br>
-            {{certsubj}}test
-            <br>
-            <strong>Locality:</strong><br>
-            {{certsan}}test
-            <br>
-            <strong>State:</strong><br>
-            {{certsan}}test
-            <br>  
-            <strong>Country:</strong><br>
-            {{certsan}}test
-            <br>                
-            <strong>Validity Start:</strong><br>
-            {{certstart}}test
-            <br>
-            <strong>Validity End:</strong><br>
-            {{certend}}test
-            <br>
-            <strong>Key Size:</strong><br>
-            {{certend}}test
-            <br>  
-            <strong>Key Algorithm:</strong><br>
-            {{certend}}test
-            <br>                
-        </div>
-
+    <div class="container" style="display: flex; justify-content: center; align-items: center;">
+        <textarea id="data" name="data" rows="15" style="width: 65%;" placeholder="Paste X.509 certificate here"></textarea>
     </div>
-    <hr>
-    <strong>Serial Number</strong><br>
-    {{certend}}test
-    <br>
-    <strong>MD5 Fingerprint</strong><br>
-    {{certend}}test
-    <br><br>
-    <input type="submit" value="Submit">
+    <div class="container" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+        <input type="submit" value="Submit" style="width: 65%;">
+    </div>
 </form>
+<hr>
+<div class="profile-section">
+    {% if cn %}<strong>Common Name:</strong> {{ cn }}<br>{% endif %}
+    {% if san %}<strong>SAN:</strong> {{ san }}<br>{% endif %}
+    {% if org %}<strong>Organization:</strong> {{ org }}<br>{% endif %}
+    {% if locality %}<strong>Locality:</strong> {{ locality }}<br>{% endif %}
+    {% if state %}<strong>State:</strong> {{ state }}<br>{% endif %}
+    {% if country %}<strong>Country:</strong> {{ country }}<br>{% endif %}
+    {% if certstart %}<strong>Validity Start:</strong> {{ certstart }}<br>{% endif %}
+    {% if certend %}<strong>Validity End:</strong> {{ certend }}<br>{% endif %}
+    {% if keysize %}<strong>Key Size:</strong> {{ keysize }}<br>{% endif %}
+    {% if keyalg %}<strong>Key Algorithm:</strong> {{ keyalg }}<br>{% endif %}
+</div>
+<hr>
+{% if serial %}<strong>Serial Number:</strong> {{ serial }}<br>{% endif %}
+{% if fingerprint %}<strong>MD5 Fingerprint:</strong> {{ fingerprint }}<br>{% endif %}
 {% endblock %}

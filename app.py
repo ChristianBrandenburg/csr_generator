@@ -2,7 +2,7 @@ import logging
 import re
 from flask import Flask, request, render_template
 from csrgen import select_csr
-from decoder import decode_cert, decode_csr
+from decoder import decode
 
 
 logging.basicConfig(level=logging.INFO)
@@ -98,8 +98,36 @@ def decoder():
     print(data)
     if data == None:
         return render_template('decoder.html')
-    decode_cert(data)
-    return render_template('decoder.html', form_data=data)
+    result = decode(data)
+    print(result)
+    cn = result['common_name']
+    san = result['common_name']
+    org = result['organization']
+    locality = result['locality']
+    state = result['state']
+    country = result['country']
+    certstart = result['validity_start']
+    certend = result['validity_end']
+    keysize = result['key_size']
+    keyalg = result['key_algorithm']
+    serial = result['SHA256_hash']
+    fingerprint = result['serial_number']
+
+    return render_template('decoder.html', 
+                           form_data=data,
+                           cn=cn,
+                           san=san,
+                           org=org,
+                           locality=locality,
+                           state=state,
+                           country=country,
+                           certstart=certstart,
+                           certend=certend,
+                           keysize=keysize,
+                           keyalg=keyalg,
+                           serial=serial,
+                           fingerprint=fingerprint
+                           )
 
 
 if __name__ == '__main__':

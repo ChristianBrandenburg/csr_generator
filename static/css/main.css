@@ -20,6 +20,16 @@ body {
     margin-left: 10px; /* Adjust the value as needed */
 }
 
+
 .profile-section {
     margin-left: 25px; /* Adjust this value as needed */
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 2px 0;
+    max-width: 65%;
+    margin: auto;
+}
+
+.profile-item {
+    display: contents; /* Keeps items inside the grid */
 }
