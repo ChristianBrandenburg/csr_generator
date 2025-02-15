@@ -67,11 +67,10 @@
             </fieldset>
         </div>
     </div>
-    <input type="radio" name="keyAlgorithm" id="RSA" value="RSA" checked onclick="setRSAKeySizes()" /> RSA
+    <input type="radio" name="keyAlgorithm" id="RSA" value="RSA" onclick="setRSAKeySizes()" />RSA
     <input type="radio" name="keyAlgorithm" id="ECC" value="ECC" onclick="setECCKeySizes()" />ECC<br><br>
     <label for="keySize">Choose a keysize:</label>
     <select name="keySize" id="keySize"></select><br><br>
     <input type="submit" value="Submit">
 </form>
-<script src="static/js/csrgen.js" defer></script>
 {% endblock %}

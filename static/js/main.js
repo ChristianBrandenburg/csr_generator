@@ -1,18 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Check if the current page is "/csrgen"
     if (window.location.pathname === "/csrgen") {
-        setRSAKeySizes(); // Load RSA key sizes only on /csrgen page
+        // Clear the selection of keyType radio buttons
+        const keyTypeRadios = document.querySelectorAll('input[name="keyType"]');
+        keyTypeRadios.forEach(radio => {
+            radio.checked = false;
+        });
 
         // Add event listener for key type selection
         const keyTypeSelect = document.getElementById("keyType");
         if (keyTypeSelect) {
-            keyTypeSelect.addEventListener("change", function () {
-                if (this.value === "RSA") {
+            // Function to handle key type change
+            function handleKeyTypeChange() {
+                console.log("Key type changed to:", keyTypeSelect.value);
+                if (keyTypeSelect.value === "RSA") {
                     setRSAKeySizes();
-                } else if (this.value === "ECC") {
+                } else if (keyTypeSelect.value === "ECC") {
                     setECCKeySizes();
                 }
-            });
+            }
+
+            // Call the function initially to set the key sizes based on the initial selection
+            handleKeyTypeChange();
+
+            // Add event listener for key type selection change
+            keyTypeSelect.addEventListener("change", handleKeyTypeChange);
         }
     }
 
@@ -33,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function setRSAKeySizes() {
     var select = document.getElementById("keySize");
     if (!select) return; // Prevent errors if element is missing
+    console.log("Setting RSA key sizes");
     select.innerHTML =
         "<option value='512'>512</option>" +
         "<option value='1024'>1024</option>" +
@@ -40,12 +53,14 @@ function setRSAKeySizes() {
         "<option value='4096'>4096</option>" +
         "<option value='8192'>8192</option>";
     select.value = "2048"; // Default to 2048
+    console.log("Default RSA key size set to:", select.value);
 }
 
 // Function to set ECC Key Sizes
 function setECCKeySizes() {
     var select = document.getElementById("keySize");
     if (!select) return; // Prevent errors if element is missing
+    console.log("Setting ECC key sizes");
     select.innerHTML =
         "<option value='192'>192</option>" +
         "<option value='224'>224</option>" +
@@ -53,6 +68,7 @@ function setECCKeySizes() {
         "<option value='384'>384</option>" +
         "<option value='521'>521</option>";
     select.value = "256"; // Default to 256
+    console.log("Default ECC key size set to:", select.value);
 }
 
 // Function to set profile settings

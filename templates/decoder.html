@@ -11,6 +11,9 @@
 </form>
 <hr>
 <div class="profile-section">
+    {% if serial %}<strong>Serial Number:</strong> {{ serial }}<br>{% endif %}
+    {% if fingerprint %}<strong>MD5 Fingerprint:</strong> {{ fingerprint }}<br>{% endif %}
+    <hr>
     {% if cn %}<strong>Common Name:</strong> {{ cn }}<br>{% endif %}
     {% if san %}<strong>SAN:</strong> {{ san }}<br>{% endif %}
     {% if org %}<strong>Organization:</strong> {{ org }}<br>{% endif %}
@@ -21,8 +24,10 @@
     {% if certend %}<strong>Validity End:</strong> {{ certend }}<br>{% endif %}
     {% if keysize %}<strong>Key Size:</strong> {{ keysize }}<br>{% endif %}
     {% if keyalg %}<strong>Key Algorithm:</strong> {{ keyalg }}<br>{% endif %}
+    <hr>
+    {% if key_usage %}<strong>Key Usage:</strong> {{ key_usage }}<br>{% endif %}
+    {% if extended_key_usage %}<strong>Extended Key Usage:</strong> {{ extended_key_usage }}<br>{% endif %}
 </div>
 <hr>
-{% if serial %}<strong>Serial Number:</strong> {{ serial }}<br>{% endif %}
-{% if fingerprint %}<strong>MD5 Fingerprint:</strong> {{ fingerprint }}<br>{% endif %}
+
 {% endblock %}

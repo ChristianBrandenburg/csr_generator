@@ -9,24 +9,56 @@ logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
-data = """-----BEGIN CERTIFICATE-----
-MIIDgzCCAmugAwIBAgIEdoEk2jANBgkqhkiG9w0BAQsFADBbMScwJQYDVQQDDB5SZWdlcnkgU2Vs
-Zi1TaWduZWQgQ2VydGlmaWNhdGUxIzAhBgNVBAoMGlJlZ2VyeSwgaHR0cHM6Ly9yZWdlcnkuY29t
-MQswCQYDVQQGEwJVQTAgFw0yNDExMTUwMDAwMDBaGA8yMTI0MTExNTIzMzczM1owRTERMA8GA1UE
-AwwIdGVzdC5jb20xIzAhBgNVBAoMGlJlZ2VyeSwgaHR0cHM6Ly9yZWdlcnkuY29tMQswCQYDVQQG
-EwJVQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJQ2Hyiw/MZaGsKZz9G+ptVyHSZS
-cTftnM5VNbRwbiWz7XKse27v0qLu8d0tRLNrt/ozd6dYzT2OpyEn6dplxIsTGBlrG0ueT1GU8yDM
-JrCiifhfWXOaYCfyXE8HkUYEvoGxWaGECgbE58Hx8k8CtMQnLWEmOdgjWwYj51BASRO2mx2w5QNs
-Vc9FBj27/9DelfzeJPsdhA5DV3ifHZHkC5Iz7i+njg9FVyiNoc7K9WBtY8pzEzajMVazaYpVwyqu
-BU3p5FgAkbca4jtlYhWQ5L9uvGr65LWbMf4lIo+T9RCiTfvkc9518RHhtfcaPH8CLN19zK44vVI+
-qPGO8gkaAskCAwEAAaNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0O
-BBYEFNwbU2x57994Ru6zbQUjxVyxrvSoMB8GA1UdIwQYMBaAFNwbU2x57994Ru6zbQUjxVyxrvSo
-MA0GCSqGSIb3DQEBCwUAA4IBAQB44bMHDRRQjh8j3VN+qGw3E44i4ov39X6XGbfuUORC9GtUsjz+
-S4uVZX5vdidcq7JLC50evzkm7V3EkB3TJ36JbV9/IVuGFhXtcmeY/FfRKf/ak5px4hE/NgQKyLCw
-ldoC4Kxj2r0+FMv2miiqz4YJvMabSHGdTeoCSz1KlBd/0QqjYAvl8jJKWzULFor1nCpn8QLEOaKy
-wVEfmXaGKScfzOOaFlZ23GD9K/9qTNou43tlFycJ6brO8JCSeckbGTvVlXZMThzY3HxqpLuMOCnQ
-m/HgFrM97diRQZFlBYdyIwq3zqpCCsEHFOQo3MPhXZvp/xHA25QMfJS5Ud56UpL8
------END CERTIFICATE-----"""
+def key_decode(data):
+
+        # Extract key usage
+    key_usage = data.extensions.get_extension_for_class(x509.KeyUsage).value
+    key_usage_list = []
+    if key_usage.digital_signature:
+        key_usage_list.append("digital_signature")
+    if key_usage.content_commitment:
+        key_usage_list.append("content_commitment")
+    if key_usage.key_encipherment:
+        key_usage_list.append("key_encipherment")
+    if key_usage.data_encipherment:
+        key_usage_list.append("data_encipherment")
+    if key_usage.key_agreement:
+        key_usage_list.append("key_agreement")
+        if key_usage.encipher_only:
+            key_usage_list.append("encipher_only")
+        if key_usage.decipher_only:
+            key_usage_list.append("decipher_only")
+    if key_usage.key_cert_sign:
+        key_usage_list.append("key_cert_sign")
+    if key_usage.crl_sign:
+        key_usage_list.append("crl_sign")
+
+    # Extract Extended Key Usage (EKU)
+    eku = data.extensions.get_extension_for_class(x509.ExtendedKeyUsage).value
+    eku_list = []
+    for oid in eku:
+        eku_list.append(oid.dotted_string)
+
+    # Map EKU OIDs to human-readable names
+    eku_name_map = {
+        "1.3.6.1.5.5.7.3.1": "Server Authentication",
+        "1.3.6.1.5.5.7.3.2": "Client Authentication",
+        "1.3.6.1.5.5.7.3.3": "Code Signing",
+        "1.3.6.1.5.5.7.3.4": "Email Protection",
+        "1.3.6.1.5.5.7.3.8": "Time Stamping",
+        "1.3.6.1.5.5.7.3.9": "OCSP Signing",
+        "1.3.6.1.5.5.7.3.5": "IPsec End System",
+        "1.3.6.1.5.5.7.3.6": "IPsec Tunnel",
+        "1.3.6.1.5.5.7.3.7": "IPsec User",
+        "1.3.6.1.5.5.7.3.10": "Smart Card Logon"
+        }
+    # Map EKU OIDs to human-readable names, including OID if not found
+    eku_names = [eku_name_map[oid] for oid in eku_list if oid in eku_name_map]
+
+    return {
+            "key_usage": key_usage_list,
+            "extended_key_usage": eku_names
+            }
 
 def decode_cert(data):
     """Function for decoding X.509 certificate"""
@@ -70,6 +102,10 @@ def decode_cert(data):
     validity_start = cert.not_valid_before.strftime("%d-%m-%Y")
     validity_end = cert.not_valid_after.strftime("%d-%m-%Y")
 
+    decoded_keys = key_decode(cert)
+    key_usage_list = decoded_keys['key_usage']
+    eku_names = decoded_keys['extended_key_usage']
+
     return {
         "common_name": common_name,
         "organization": organization,
@@ -84,6 +120,8 @@ def decode_cert(data):
         "serial_number": serial_number,
         "validity_start": validity_start,
         "validity_end": validity_end,
+        "key_usage": key_usage_list,
+        "extended_key_usage": eku_names
     }
 
 def decode_csr(data):
@@ -124,6 +162,10 @@ def decode_csr(data):
         key_algorithm = "Unknown"
         key_size = "Unknown"
 
+    decoded_keys = key_decode(csr)
+    key_usage_list = decoded_keys['key_usage']
+    eku_names = decoded_keys['extended_key_usage']
+
     # Return extracted details
     return {
         "common_name": common_name,
@@ -139,6 +181,8 @@ def decode_csr(data):
         "serial_number": "",
         "validity_start": "",
         "validity_end": "",
+        "key_usage": key_usage_list,
+        "extended_key_usage": eku_names
     }
 
 
@@ -156,3 +200,4 @@ def decode(data):
         result = None
         raise ValueError("Input data is neither a valid CSR nor a certificate.")
     return result
+

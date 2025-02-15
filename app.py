@@ -86,11 +86,6 @@ def generatecsr():
     print(csr)
     return render_template('result.html', csr=csr,key=key)
     
-# @app.route('/decoder')
-# def decoder():
-#     """Route to serve template files as static content"""
-#     return render_template('decoder.html')
-
 @app.route('/decoder',methods=['POST','GET'])
 def decoder():
     """Route to serve template files as static content"""
@@ -112,6 +107,8 @@ def decoder():
     keyalg = result['key_algorithm']
     serial = result['SHA256_hash']
     fingerprint = result['serial_number']
+    key_usage = result['key_usage']
+    extended_key_usage = result['extended_key_usage']
 
     return render_template('decoder.html', 
                            form_data=data,
@@ -126,7 +123,9 @@ def decoder():
                            keysize=keysize,
                            keyalg=keyalg,
                            serial=serial,
-                           fingerprint=fingerprint
+                           fingerprint=fingerprint,
+                           key_usage=key_usage,
+                           extended_key_usage=extended_key_usage
                            )
 
 
