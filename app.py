@@ -94,6 +94,10 @@ def decoder():
     if data == None:
         return render_template('decoder.html')
     result = decode(data)
+
+    if result is None:
+        return render_template('decoder.html', error="Failed to decode the data.")
+    
     print(result)
     cn = result['common_name']
     san = result['common_name']

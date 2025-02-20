@@ -198,6 +198,5 @@ def decode(data):
         result = decode_cert(cert_bytes)
     else:
         result = None
-        raise ValueError("Input data is neither a valid CSR nor a certificate.")
     return result
 
